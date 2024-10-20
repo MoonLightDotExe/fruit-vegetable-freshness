@@ -7,11 +7,9 @@ import keras
 import time
 import json
 from datetime import datetime
-from flask import Flask, jsonify
 
-yolo_model = YOLO('best.pt')
-classifier_model = keras.models.load_model('classifier_new_2.keras')
-# classifier_model.load_weights('resnet_model_weights.weights.h5')
+yolo_model = YOLO('./best.pt')
+classifier_model = keras.models.load_model('./classifier_new_2.keras')
 
 labels = [
     "fresh_apple",
@@ -26,7 +24,7 @@ labels = [
     "stale_tomato",
 ]
 
-time_interval = 10  # Time interval for detecting objects
+time_interval = 10  # Time interval for detecting objects || Every 10 seconds, new object is made and counted
 save_interval = 20  # Time interval for saving results (in seconds)
 start_time = time.time()
 save_start_time = time.time()  # Initialize save start time
@@ -34,7 +32,7 @@ save_start_time = time.time()  # Initialize save start time
 object_counts = {label: 0 for label in labels}
 result_array = []
 
-capture = cv.VideoCapture(1)
+capture = cv.VideoCapture(0)
 
 if not capture.isOpened():
     print("Error opening video stream or file")
